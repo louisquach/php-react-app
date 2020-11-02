@@ -20,7 +20,7 @@ const TodoTasks = () => {
         const [toggleEdit, setToggleEdit] = useState(false)
         const [editContent, setEditContent] = useState('')
         const [showDialog, setShowDialog] = useState(false)
-        const [deleteId, setDeleteId] = useState(null)
+        const [deleteItem, setDeleteItem] = useState()
 
         const newTodo = event => {
             const newTask = event.target.value;
@@ -47,7 +47,7 @@ const TodoTasks = () => {
         }
 
         const deleteTodo = () => {
-            context.deleteTodo(deleteId);
+            context.deleteTodo(deleteItem);
             setShowDialog(false)
         }
 
@@ -107,7 +107,7 @@ const TodoTasks = () => {
                                         <EditIcon/>
                                     </IconButton>
 
-                                    <IconButton onClick={ () =>{setShowDialog(true); setDeleteId(todo.id)}}>
+                                    <IconButton onClick={ () =>{setShowDialog(true); setDeleteItem(todo)}}>
                                         <DeleteIcon/>
                                     </IconButton>
                                 </TableCell>

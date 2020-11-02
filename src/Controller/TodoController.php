@@ -70,7 +70,7 @@ class TodoController extends AbstractController
     }
 
     /**
-     * @Route("/update/{id}", name="api_todo_create")
+     * @Route("/update/{id}", name="api_todo_update")
      * @param Request $request
      * @param Task $task
      * @return JsonResponse
@@ -87,6 +87,24 @@ class TodoController extends AbstractController
 
         return $this->json([
             'message' => 'Task has been updated!'
+        ]);
+    }
+
+    /**
+     * @Route("/delete/{id}", name="api_todo_delete")
+     * @param Task $task
+     * @return JsonResponse
+     */
+    public function deleteTask(Task $task)
+    {
+        try {
+            $this->entityManager->remove($task);
+            $this->entityManager->flush();
+        }catch (Exception $exception) {
+//            error
+        }
+        return $this->json([
+            'message' => 'Task has been deleted!'
         ]);
     }
 }

@@ -44,8 +44,11 @@ class TodoContextProvider extends Component {
     }
 
     //delete
-    deleteTodo(taskId) {
-        let array = this.state.todos.filter( todo => todo.id !== taskId)
+    deleteTodo(task) {
+        axios.delete('api/todo/delete/' + task.id)
+            .then( res => console.log(res))
+            .catch ( err => console.log(err))
+        let array = this.state.todos.filter( todo => todo.id !== task.id)
         this.setState({todos: array})
     }
 
