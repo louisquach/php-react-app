@@ -30,10 +30,17 @@ class TodoContextProvider extends Component {
     }
     //update
     updateTodo(updatedTodo) {
-        let array = [...this.state.todos]
-        let updatedTask = array.find( todo => todo.id === updatedTodo.id)
-        updatedTask.task = updatedTodo.task
-        this.setState({todos: array})
+
+        axios.put('api/todo/update/' + updatedTodo.id, updatedTodo)
+            .then ( res => {
+                if (res.status === 200) {
+                    let array = [...this.state.todos]
+                    let updatedTask = array.find( todo => todo.id === updatedTodo.id)
+                    updatedTask.task = updatedTodo.task
+                    this.setState({todos: array})
+                }
+            })
+            .catch(err => console.log(err, err.message))
     }
 
     //delete

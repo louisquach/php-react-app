@@ -7,6 +7,7 @@ use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use mysql_xdevapi\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,6 +49,7 @@ class TodoController extends AbstractController
     /**
      * @Route("/create", name="api_todo_create")
      * @param Request $request
+     * @return JsonResponse
      */
     public function createTask(Request $request)
     {
@@ -65,6 +67,26 @@ class TodoController extends AbstractController
         } catch (Exception $exception) {
             //error
         }
+    }
 
+    /**
+     * @Route("/update/{id}", name="api_todo_create")
+     * @param Request $request
+     * @param Task $task
+     * @return JsonResponse
+     */
+    public function updateTask(Request $request, Task $task)
+    {
+        $content = json_decode($request->getContent());
+        $task->setTask($content->task);
+        try {
+            $this->entityManager->flush();
+        } catch (Exception$exception) {
+//            error
+        }
+
+        return $this->json([
+            'message' => 'Task has been updated!'
+        ]);
     }
 }
