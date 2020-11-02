@@ -19,14 +19,8 @@ const TodoTasks = () => {
         const [todo, setTodo] = useState('')
         const [toggleEdit, setToggleEdit] = useState(false)
         const [editContent, setEditContent] = useState('')
-        const [id, setId] = useState(null)
         const [showDialog, setShowDialog] = useState(false)
         const [deleteId, setDeleteId] = useState(null)
-
-    useEffect( () => {
-        const taskId = context.todos.map( todo => todo.id)
-        setId(Math.max(...taskId) + 1)
-    },[context.todos])
 
         const newTodo = event => {
             const newTask = event.target.value;
@@ -34,7 +28,7 @@ const TodoTasks = () => {
         }
 
         const addTodo = () => {
-            context.createTodo({id: id,task: todo});
+            context.createTodo({task: todo});
             setTodo('')
         }
 

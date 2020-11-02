@@ -7,20 +7,25 @@ class TodoContextProvider extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            todos: [{id:1, task: 'Welcome to Todo-App!'}]
+            todos: []
         }
         this.read();
     }
     //create
     createTodo(todo) {
         let array = [...this.state.todos]
-        array.push(todo)
-        this.setState(this.state.todos= array);
+        axios.post('/api/todo/create', todo)
+            .then( res => {
+                console.log(res.data)
+                array.push(res.data[0])
+                this.setState({todos: array});
+            })
+            .catch( err => console.log(err))
     }
     //read
     read() {
         axios.get('api/todo/read')
-            .then( res => this.setState({todos: [...this.state.todos,res.data]}))
+            .then( res => this.setState({todos: res.data}))
             .catch( err => {console.error(err)})
     }
     //update
